@@ -1,0 +1,17 @@
+# SpecScore Repo Config Schema: https://specscore.md/repo-config
+
+project:
+    title: PolyModel
+    host: github.com
+    org: polymodel-org
+    repo: polymodel
+
+gates:
+    specify:
+        reviewers:
+            - type: human
+              name: author-approval
+    plan:
+        reviewers:
+            - type: human
+              name: author-approval
