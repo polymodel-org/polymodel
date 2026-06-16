@@ -11,6 +11,7 @@ Pre-spec one-pagers. Each Idea is a lint-clean problem-direction-MVP one-pager t
 | Idea | Status | Date | Owner | Promotes To |
 |------|--------|------|-------|-------------|
 | [core-model](core-model.md) | Specified | 2026-06-16 | alex | core-model |
+| [high-tier-parity-gaps](high-tier-parity-gaps.md) | Draft | 2026-06-16 | alex | — |
 
 ## Open Questions
 
