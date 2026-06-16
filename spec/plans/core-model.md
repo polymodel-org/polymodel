@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Approved
+status: Completed
 ---
 # Plan: Core Model
 
-**Status:** Approved
+**Status:** Completed
 **Source Feature:** core-model
 **Date:** 2026-06-16
 **Owner:** alexandertrakhimenok
@@ -42,7 +42,7 @@ and migrations.
 
 **Verifies:** core-model#ac:model-concepts
 **Depends-On:** —
-**Status:** pending
+**Status:** done
 
 Define the Go types for the three structural concepts and their distinct attribute
 types — `Entity`/`Property`, `Collection`/`Field` (with `Kind`), `Recordset`/`Column` —
@@ -53,7 +53,7 @@ own attribute type and that names are unique within a concept kind.
 
 **Verifies:** core-model#ac:authoring, core-model#ac:model-concepts
 **Depends-On:** 1
-**Status:** pending
+**Status:** done
 
 Parse HCL (via `hashicorp/hcl/v2`) into the in-memory model so a Go consumer uses it
 directly with no serialized interchange file. Tests parse an HCL model declaring an
@@ -64,7 +64,7 @@ with a located error.
 
 **Verifies:** core-model#ac:query-seam-opaque
 **Depends-On:** 2
-**Status:** pending
+**Status:** done
 
 Implement the placeholder query seam — an opaque query reference carried by Computed
 Collections and Recordsets without interpretation. Tests assert a model carrying a query
@@ -74,7 +74,7 @@ loads and retains it verbatim, with no concrete DTQL implementation present.
 
 **Verifies:** core-model#ac:binding-precedence
 **Depends-On:** 2
-**Status:** pending
+**Status:** done
 
 Implement binding semantics so a Collection field / Recordset column that binds to an
 Entity property is primary and may override the property (e.g. nullability). Tests
@@ -84,7 +84,7 @@ assert the override applies, the binding resolves, and an unbound field/column i
 
 **Verifies:** core-model#ac:component-scope
 **Depends-On:** 2
-**Status:** pending
+**Status:** done
 
 Enforce that Components embed into Entities only in v0. Tests assert an Entity embed
 validates and a Collection (or Recordset) embed is rejected with a located error.
@@ -93,7 +93,7 @@ validates and a Collection (or Recordset) embed is rejected with a located error
 
 **Verifies:** core-model#ac:type-system
 **Depends-On:** 1
-**Status:** pending
+**Status:** done
 
 Validate that every property/field/column type is in the v0 primitive set (or a valid
 reference) and that constraints are within the v0 set (`required`, `unique`, length,
@@ -104,7 +104,7 @@ are rejected with located errors.
 
 **Verifies:** core-model#ac:validation-located
 **Depends-On:** 3, 4, 5, 6
-**Status:** pending
+**Status:** done
 
 Implement model-wide reference resolution (property reuse, Component embeds, Entity
 associations, Collection foreign keys, field/column→property bindings) and a validation
