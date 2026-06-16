@@ -119,39 +119,122 @@ without changing the source model.
 
 # Core Concepts
 
+PolyModel v0 has three structural concepts — **Entity**, **Collection**, and
+**Recordset** — plus reusable **Components**. Each concept has its own attribute type,
+named for what it is: `property` (Entity), `field` (Collection), `column` (Recordset).
+The authored format is **HCL**.
+
+> The authoritative, machine-checkable specification lives in
+> [`spec/features/core-model`](spec/features/core-model/README.md), with the rationale
+> recorded as decisions in [`spec/decisions`](spec/decisions/README.md). A reference Go
+> implementation is at [`polymodel-go`](https://github.com/polymodel-org/polymodel-go).
+
 ## Entity
 
-Logical business object.
+A logical, identity-bearing business object — the semantic anchor. An Entity has
+**properties** (its canonical attributes), may embed **components**, and may declare a
+**key**.
 
 ```hcl
 entity "User" {
-  field "id" {
-    type = uuid
+  key = ["id"]
+
+  property "id" {
+    type = "uuid"
   }
 
-  field "email" {
-    type = string
+  property "email" {
+    type   = "string"
     unique = true
+  }
+}
+```
+
+A property may **associate** to another Entity (a relationship) or **reuse** another
+property's definition:
+
+```hcl
+entity "Order" {
+  key = ["id"]
+
+  property "id" {
+    type = "uuid"
+  }
+
+  property "user" {
+    entity = "User" # association to another Entity
   }
 }
 ```
 
 ---
 
-## Relationship
+## Collection
 
-Logical relationship between entities.
+A named, queryable **data source** that holds records — the thing you read `FROM`.
+A Collection has a `kind`: `editable` (a stored table or file-system collection) or
+`computed` (a view). There is no separate Table or View type — the distinction is the
+kind. A Collection's attributes are **fields**: loose and schemaless-capable, they may
+**bind** to an Entity property and may declare an enforced **foreign key**.
 
 ```hcl
-entity "Order" {
-  parent = entity.User
+collection "users" {
+  kind = "editable"
 
   field "id" {
-    type = uuid
+    type = "uuid"
+    bind = "User.id"
+  }
+}
+
+collection "active_users" {
+  kind  = "computed"
+  query = "from users where active" # held behind an opaque seam (DTQL planned)
+}
+```
+
+---
+
+## Recordset
+
+The tabular **shape of a result** — a query or stored-procedure output. A Recordset has
+ordered **columns** (strict and tabular, unlike loose collection fields) and may carry
+a query.
+
+```hcl
+recordset "user_summary" {
+  key = ["userId"]
+
+  column "userId" {
+    type = "uuid"
+    bind = "User.id"
   }
 
-  field "createdAt" {
-    type = timestamp
+  column "orderCount" {
+    type   = "int"
+    source = "count(orders)" # produced-by expression
+  }
+}
+```
+
+---
+
+## Component
+
+A reusable, named group of fields, embedded into Entities — favoring composition over
+inheritance.
+
+```hcl
+component "Auditable" {
+  field "createdAt" { type = "datetime" }
+  field "updatedAt" { type = "datetime" }
+}
+
+entity "Invoice" {
+  use = ["Auditable"]
+
+  property "total" {
+    type = "decimal"
   }
 }
 ```
@@ -243,37 +326,26 @@ PolyModel treats hierarchy as a logical concern rather than a storage concern.
 
 ```hcl
 entity "User" {
-  field "id" {
-    type = uuid
-  }
+  key = ["id"]
 
-  field "email" {
-    type = string
-  }
+  property "id"    { type = "uuid" }
+  property "email" { type = "string" }
 }
 
 entity "Order" {
-  parent = entity.User
+  key = ["id"]
 
-  field "id" {
-    type = uuid
-  }
-
-  field "createdAt" {
-    type = timestamp
-  }
+  property "id"        { type = "uuid" }
+  property "user"      { entity = "User" } # association
+  property "createdAt" { type = "timestamp" }
 }
 
 entity "OrderItem" {
-  parent = entity.Order
+  key = ["id"]
 
-  field "id" {
-    type = uuid
-  }
-
-  field "quantity" {
-    type = int
-  }
+  property "id"       { type = "uuid" }
+  property "order"    { entity = "Order" } # association
+  property "quantity" { type = "int" }
 }
 ```
 
@@ -321,15 +393,19 @@ interface OrderDto {
 
 # Migrations
 
-PolyModel supports schema evolution through versioned migrations.
+> **Deferred — not part of v0.** Migrations are out of scope for the core model and
+> will be specified separately. The sketch below is illustrative of the future
+> direction, not the current spec.
+
+PolyModel aims to support schema evolution through versioned migrations.
 
 ```hcl
 migration "v2" {
 
   entity "User" {
 
-    field "displayName" {
-      type = string
+    property "displayName" {
+      type     = "string"
       optional = true
     }
 
@@ -398,15 +474,15 @@ A future PolyModel generator may produce TypeSpec definitions directly.
 
 # Roadmap
 
-## v0.1
+## v0.1 — core model ✅
 
-- Entity definitions
-- Fields
-- Relationships
-- Hierarchies
-- HCL-based syntax
-- Specification document
-- Example models
+- Entity / Collection / Recordset concepts
+- `property` / `field` / `column` attribute types
+- `Collection.Kind` (editable | computed) — no separate Table/View type
+- Components (composition; Entities only)
+- Opaque query seam (DTQL intended)
+- HCL syntax + type system + constraints + located-error validation
+- SpecScore specification (`spec/`) and a reference Go implementation (`polymodel-go`)
 
 ## v0.2
 
@@ -447,11 +523,14 @@ A future PolyModel generator may produce TypeSpec definitions directly.
 
 # Status
 
-PolyModel is currently in the design phase.
+The **v0 core model is defined and implemented** — see
+[`spec/features/core-model`](spec/features/core-model/README.md) for the specification
+and [`polymodel-go`](https://github.com/polymodel-org/polymodel-go) for the reference
+implementation. Generators (PostgreSQL, Firestore, inGitDB, language types, …) and a
+serialization for non-Go consumers are still ahead.
 
-The specification is evolving and may change significantly before v1.0.
-
-Feedback, ideas, and contributions are welcome.
+The specification is early and may change before v1.0. Feedback, ideas, and
+contributions are welcome.
 
 ---
 
