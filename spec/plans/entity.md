@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Approved
+status: Completed
 ---
 # Plan: Entity
 
-**Status:** Approved
+**Status:** Completed
 **Source Feature:** core-model/entity
 **Date:** 2026-06-16
 **Owner:** alexandertrakhimenok
@@ -28,7 +28,7 @@ semantics and their tests.
 
 **Verifies:** core-model/entity#ac:entity-definition
 **Depends-On:** —
-**Status:** pending
+**Status:** done
 
 Implement an Entity with properties, an embedded Component, a `key` over property
 names, a property association to another Entity, and property reuse by reference. Tests

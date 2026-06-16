@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Approved
+status: Completed
 ---
 # Plan: Recordset
 
-**Status:** Approved
+**Status:** Completed
 **Source Feature:** core-model/recordset
 **Date:** 2026-06-16
 **Owner:** alexandertrakhimenok
@@ -29,7 +29,7 @@ result-shape behavior and its tests.
 
 **Verifies:** core-model/recordset#ac:recordset-shape
 **Depends-On:** —
-**Status:** pending
+**Status:** done
 
 Implement the Recordset as a result shape with ordered, strict columns — a
 `document`-typed column, a column with a source expression, and a column with a soft

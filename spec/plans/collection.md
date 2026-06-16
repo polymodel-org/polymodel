@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Approved
+status: Completed
 ---
 # Plan: Collection
 
-**Status:** Approved
+**Status:** Completed
 **Source Feature:** core-model/collection
 **Date:** 2026-06-16
 **Owner:** alexandertrakhimenok
@@ -29,7 +29,7 @@ then the computed-query rule.
 
 **Verifies:** core-model/collection#ac:collection-kind
 **Depends-On:** —
-**Status:** pending
+**Status:** done
 
 Implement the Collection as a data source with a required `Kind` of `Editable` or
 `Computed`. Tests assert both kinds validate and that a Collection whose Kind is
@@ -39,7 +39,7 @@ neither is rejected with a located error.
 
 **Verifies:** core-model/collection#ac:collection-fields
 **Depends-On:** 1
-**Status:** pending
+**Status:** done
 
 Implement loose, schemaless-capable fields: an `Optional` field, a field bound to an
 Entity property, and a field with an enforced foreign key to another Collection. Tests
@@ -50,7 +50,7 @@ rejected with a located error.
 
 **Verifies:** core-model/collection#ac:computed-query
 **Depends-On:** 1
-**Status:** pending
+**Status:** done
 
 Enforce that a Computed Collection carries a query (via the foundations query seam) and
 an Editable one does not. Tests assert a Computed Collection missing a query — or an
