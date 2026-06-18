@@ -1,11 +1,11 @@
 ---
 format: https://specscore.md/decision-specification
-status: Accepted
+status: Approved
 ---
 
 # Decision: No Table type — Collection.Kind (Editable or Computed)
 
-**Status:** Accepted
+**Status:** Approved
 **Date:** 2026-06-16
 **Owner:** alex
 **Tags:** —

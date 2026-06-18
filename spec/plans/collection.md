@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Completed
+status: Implemented
 ---
 # Plan: Collection
 
-**Status:** Completed
+**Status:** Implemented
 **Source Feature:** core-model/collection
 **Date:** 2026-06-16
 **Owner:** alexandertrakhimenok

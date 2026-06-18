@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Completed
+status: Implemented
 ---
 # Plan: Entity
 
-**Status:** Completed
+**Status:** Implemented
 **Source Feature:** core-model/entity
 **Date:** 2026-06-16
 **Owner:** alexandertrakhimenok

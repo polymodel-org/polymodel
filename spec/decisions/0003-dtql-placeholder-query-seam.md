@@ -1,11 +1,11 @@
 ---
 format: https://specscore.md/decision-specification
-status: Accepted
+status: Approved
 ---
 
 # Decision: DTQL behind a placeholder query seam
 
-**Status:** Accepted
+**Status:** Approved
 **Date:** 2026-06-16
 **Owner:** alex
 **Tags:** —
